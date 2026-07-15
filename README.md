@@ -1,4 +1,4 @@
-Simple DMA Hack for Single Player Tarkov
+Simple Direct Memory Access Hack for Single Player Tarkov
 
 
 *THIS WILL NOT WORK IN LIVE TARKOV SERVERS*
