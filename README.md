@@ -1,4 +1,6 @@
 Simple DMA Hack for Single Player Tarkov
+
+
 *THIS WILL NOT WORK IN LIVE TARKOV SERVERS*
 
 
