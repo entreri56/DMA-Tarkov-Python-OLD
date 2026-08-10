@@ -73,7 +73,7 @@ A Pygame window will open showing:
 
 ## ⚠️ Disclaimer
 
-> **FOR EDUCATIONAL PURPOSES ONLY.** This project is meant for learning about DMA, memory analysis, and reverse engineering in a **single-player offline environment**. Using cheats on live multiplayer servers is against the game's ToS and can result in bans. The author is not responsible for any misuse.
+> **FOR EDUCATIONAL PURPOSES ONLY.** This project is meant for learning about DMA, memory analysis, and reverse engineering in a **single-player offline environment**. Using cheats on live multiplayer servers is against the game's ToS and can result in bans. I am not responsible for any misuse.
 
 ---
 
