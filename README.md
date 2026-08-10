@@ -7,12 +7,6 @@ Reads player positions from game memory via [MemProcFS](https://github.com/ufris
 
 ---
 
-## 📐 Tarkov In-Game Memory Topology
-
-![Tarkov Memory Topology](https://github.com/user-attachments/assets/ecce6b31-e7ad-46d7-838b-baeffd234305)
-
----
-
 ## 🎥 Demo
 
 [![Watch the demo](https://img.youtube.com/vi/8U7eld4m7B4/0.jpg)](https://youtu.be/8U7eld4m7B4)
@@ -121,6 +115,12 @@ A Pygame window will open showing:
 | `LocalGameWorld` | `(0x30, 0x18, 0x28)` | Chain to local game world |
 | `MainPlayer` | `0x148` | Local player reference |
 | `RegisteredPlayers` | `0xF0` | Player list |
+
+---
+
+## 📐 Tarkov In-Game Memory Topology
+
+![Tarkov Memory Topology](https://github.com/user-attachments/assets/ecce6b31-e7ad-46d7-838b-baeffd234305)
 
 ---
 
