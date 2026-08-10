@@ -22,7 +22,7 @@ This hack uses a **two-computer DMA setup** to remain completely invisible to an
 ```
 ┌─────────────────┐         ┌──────────────┐         ┌─────────────────┐
 │                 │         │              │         │                 │
-│   GAMING PC     │ ◄─PCIe─►│  DMA BOARD   │◄─USB/──►│   CHEAT PC     │
+│   GAMING PC     │ ◄─PCIe─►│  DMA BOARD   │◄─USB/──►│   CHEAT PC      │
 │  (runs Tarkov)  │         │  (FPGA)      │  PCIe   │ (runs this hack)│
 │                 │         │              │         │                 │
 └─────────────────┘         └──────────────┘         └─────────────────┘
