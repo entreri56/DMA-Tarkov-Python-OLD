@@ -21,11 +21,64 @@ Reads player positions from game memory via [MemProcFS](https://github.com/ufris
 
 ---
 
-## 🛠️ How It Works
+## 🖥️ DMA Hardware Setup (2-PC Architecture)
 
-1. **MemProcFS** connects to the DMA device (FPGA) and reads the game's memory.
-2. Offsets are used to locate the **GameObjectManager (GOM)**, local game world, and player list.
-3. Player X/Y coordinates are extracted and rendered on a **Pygame** overlay window.
+This hack uses a **two-computer DMA setup** to remain completely invisible to anti-cheat software:
+
+```
+┌─────────────────┐         ┌──────────────┐         ┌─────────────────┐
+│                 │         │              │         │                 │
+│   GAMING PC     │ ◄─PCIe─►│  DMA BOARD   │◄─USB/──►│   CHEAT PC     │
+│  (runs Tarkov)  │         │  (FPGA)      │  PCIe   │ (runs this hack)│
+│                 │         │              │         │                 │
+└─────────────────┘         └──────────────┘         └─────────────────┘
+```
+
+<img width="1280" height="720" alt="pc3bsiiisrpc1" src="https://github.com/user-attachments/assets/f103ea35-8f71-4a9c-acd0-f8fb05bc56b3" />
+
+
+### The 3 Components:
+
+| Component | Role |
+|-----------|------|
+| **Gaming PC** | Runs Escape from Tarkov (SPT). The DMA board is plugged into a PCIe slot. |
+| **DMA Board (FPGA)** | A hardware device (e.g. PCIe Squirrel, Screamer) that reads the Gaming PC's RAM **directly from the physical memory bus** — no software running on the gaming PC at all. |
+| **Cheat PC** | A separate computer that receives the memory data from the DMA board and runs this Python script to parse entities and render the ESP overlay. |
+
+---
+
+## 🛠️ How It Works (Step by Step)
+
+1. The **DMA board** is physically plugged into the Gaming PC's PCIe slot (or M.2 slot with adapter).
+2. The DMA board reads **raw physical memory** directly from the RAM bus — this happens at the hardware level, outside the operating system.
+3. The **Cheat PC** connects to the DMA board via USB or another PCIe cable, receiving a live stream of memory data.
+4. [**MemProcFS**](https://github.com/ufrisk/memprocfs) on the Cheat PC mounts the Gaming PC's memory as a virtual filesystem and provides a Python API to read it.
+5. The script walks the **GameObjectManager (GOM)** chain using known offsets to find the player list.
+6. Player X/Y coordinates are extracted and drawn as colored dots on a **Pygame** overlay window on the Cheat PC.
+
+---
+
+## 🔒 Why DMA is Undetectable
+
+Traditional software cheats run **on the same PC** as the game — they inject DLLs, hook functions, or read/write process memory through Windows APIs. Anti-cheat systems (BattlEye, EAC, Vanguard) easily detect these because they monitor:
+- Open process handles (`OpenProcess`, `ReadProcessMemory`)
+- DLL injection & code hooks
+- Anomalous driver signatures
+- Screen capture / overlay detection
+
+**DMA bypasses all of this:**
+
+| Detection Vector | DMA |
+|------------------|-----|
+| ❌ Process handles | DMA reads physical RAM — no `OpenProcess` call on the Gaming PC |
+| ❌ DLL injection | Nothing runs on the Gaming PC — no code, no hooks, no threads |
+| ❌ Driver signatures | The DMA board uses its own firmware, invisible to Windows |
+| ❌ API monitoring | All memory access happens over the PCIe bus at hardware level |
+| ❌ Screen capture | ESP overlay runs on the **Cheat PC**, not on the Gaming PC |
+
+> The Gaming PC has **zero software** related to the cheat installed. From the perspective of the OS and any anti-cheat, the DMA board is just another PCIe device doing DMA — something every GPU, NVMe drive, and network card already does.
+
+Anti-cheat cannot scan the **Cheat PC** because it's a physically separate machine with no connection to the game server.
 
 ---
 
